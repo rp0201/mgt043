@@ -1,0 +1,297 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Coach K or Coach Knight? (Copy)</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Graduate&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;1,8..60,400;1,8..60,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: arena scoreboard band on top, one big quote card center court, presenter controls below. Deliberate single dark look (gym lights off, scoreboard on). */
+:root{
+  --floor:#14161c; --panel:#1d2029; --line:#2e3240; --chalk:#eef0f4; --muted:#9aa0ad;
+  --duke:#3b6fd8; --duke-soft:#20345e; --iu:#c8323f; --iu-soft:#5a1d24; --amber:#f2b33d; --good:#3fb56b; --good-soft:#163a24; --bad:#e5484d; --bad-soft:#4a1518;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --serif:"Source Serif 4",Georgia,serif;
+  --sans:"IBM Plex Sans",system-ui,sans-serif;
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{background:var(--floor);color:var(--chalk);font-family:var(--sans);font-size:16px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px}
+.wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:20px;min-height:100%}
+button{font-family:var(--sans);cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+
+/* scoreboard */
+.board{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:stretch;background:#0b0c10;border:1px solid var(--line);border-radius:6px;padding:12px}
+.team{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px;min-width:0}
+.team input{background:transparent;border:0;color:var(--muted);font:600 13px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;text-align:center;width:100%;padding:4px}
+.team input:hover{color:var(--chalk)}
+.pts{font:900 clamp(48px,9vw,84px)/1 var(--display);color:var(--amber);font-variant-numeric:tabular-nums;text-shadow:0 0 18px rgba(242,179,61,.35)}
+.adj{display:flex;gap:6px}
+.adj button{background:var(--panel);border:1px solid var(--line);color:var(--muted);width:30px;height:26px;border-radius:4px;font-size:14px}
+.adj button:hover{color:var(--chalk)}
+.mid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0 8px}
+.mid .lbl{font:600 11px/1 var(--sans);letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+.mid .q{font:800 34px/1 var(--display);font-variant-numeric:tabular-nums}
+
+/* court card */
+.court{flex:1;display:flex;flex-direction:column;gap:22px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:clamp(22px,4vw,44px);position:relative;overflow:hidden;transition:box-shadow .3s}
+.court::before{content:"";position:absolute;left:50%;top:50%;width:min(70vw,520px);aspect-ratio:1;max-width:100%;transform:translate(-50%,-50%);border:2px solid rgba(255,255,255,.035);border-radius:50%;pointer-events:none}
+.court.good{box-shadow:inset 0 0 0 3px var(--good)} .court.bad{box-shadow:inset 0 0 0 3px var(--bad)}
+.eyebrow{font:600 12px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+blockquote{margin:0;font:italic 400 clamp(24px,3.6vw,40px)/1.3 var(--serif);text-wrap:balance;max-width:30ch;position:relative}
+blockquote::before{content:"\201C";position:absolute;left:-.55em;top:-.1em;color:var(--amber);font-size:1.4em;opacity:.8}
+blockquote::after{content:"\201D";color:var(--amber);font-size:1.4em;opacity:.8;line-height:0;vertical-align:-.3em;margin-left:.05em}
+
+.picks{display:grid;grid-template-columns:1fr 1fr;gap:14px;position:relative}
+.pick{border-radius:6px;padding:18px 16px;border:2px solid var(--line);background:#161820;color:var(--chalk);display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;transition:transform .12s,border-color .2s,background .2s,opacity .2s}
+.pick:hover:not(:disabled){transform:translateY(-2px)}
+.pick .nm{font:800 clamp(26px,4vw,36px)/1 var(--display);letter-spacing:.02em;text-transform:uppercase}
+.pick .sub{font-size:13px;color:var(--muted)}
+.pick .key{font:600 11px/1 var(--sans);color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:3px 6px;margin-top:6px}
+.pick.k:hover:not(:disabled){border-color:var(--duke)} .pick.kn:hover:not(:disabled){border-color:var(--iu)}
+.pick:disabled{cursor:default}
+.pick{position:relative}
+.pick.correct{background:var(--good-soft);border-color:var(--good)}
+.pick.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.pick.correct::after,.pick.wrong::after{position:absolute;top:14px;right:16px;font:800 20px/1 var(--display);letter-spacing:.06em;text-transform:uppercase}
+.pick.correct::after{content:"\2713  Correct";color:var(--good)}
+.pick.wrong::after{content:"\2715  Incorrect";color:var(--bad)}
+
+.reveal{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:18px;position:relative}
+.reveal .ans{font:800 26px/1 var(--display);text-transform:uppercase;letter-spacing:.03em}
+.reveal p{margin:0;max-width:68ch;line-height:1.55;color:#d7dae2}
+.tag{align-self:flex-start;font:600 12px/1 var(--sans);letter-spacing:.06em;color:var(--amber);border:1px solid rgba(242,179,61,.45);border-radius:20px;padding:6px 10px}
+
+/* controls */
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.award{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.award span{font-size:13px;color:var(--muted)}
+.btn{background:var(--panel);border:1px solid var(--line);color:var(--chalk);border-radius:5px;padding:11px 16px;font-size:14px;font-weight:500}
+.btn:hover{border-color:var(--muted)}
+.btn.on{background:var(--amber);border-color:var(--amber);color:#1a1300}
+.btn.primary{background:var(--chalk);color:var(--floor);border-color:var(--chalk);font-weight:600}
+.btn.primary:disabled,#prev:disabled{opacity:.35;cursor:default}
+.btn.warn{border-color:var(--iu);color:#ffb3b9}
+.hint{font-size:12px;color:var(--muted)}
+
+/* final */
+.final{flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:clamp(22px,4vw,44px)}
+.final h1{margin:0;font:900 clamp(40px,7vw,72px)/.95 var(--display);text-transform:uppercase;text-wrap:balance}
+.final p{margin:0;max-width:64ch;line-height:1.6;color:#d7dae2}
+.final h2{margin:6px 0 0;font:800 20px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--amber)}
+.final ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;line-height:1.5;max-width:64ch}
+
+.final{align-items:center;text-align:center;justify-content:center;gap:28px}
+.fboard{width:100%;max-width:760px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;background:#0b0c10;border:1px solid var(--line);border-radius:8px;padding:clamp(18px,4vw,36px)}
+.fteam{display:flex;flex-direction:column;align-items:center;gap:10px;min-width:0;transition:opacity .3s}
+.badge{width:clamp(64px,12vw,104px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;color:#fff;font:400 clamp(34px,6vw,58px)/1 "Graduate","Rockwell","Courier New",serif;padding-top:.08em;text-shadow:3px 3px 0 rgba(0,0,0,.35);border:4px solid rgba(255,255,255,.18)}
+.badge.two{font-size:clamp(26px,4.6vw,44px);letter-spacing:-.02em}
+.t1 .badge{background:var(--duke)} .t2 .badge{background:var(--iu)}
+.fname{font:800 clamp(18px,3vw,26px)/1 var(--display);letter-spacing:.08em;text-transform:uppercase;overflow-wrap:anywhere}
+.fpts{font:900 clamp(60px,12vw,120px)/1 var(--display);color:var(--amber);font-variant-numeric:tabular-nums;text-shadow:0 0 22px rgba(242,179,61,.4)}
+.fdash{font:800 16px/1 var(--display);letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.win .badge{border-color:var(--amber);box-shadow:0 0 28px rgba(242,179,61,.45)}
+.lose{opacity:.45}
+@media (max-width:560px){.picks{grid-template-columns:1fr}.mid .q{font-size:26px}blockquote::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="board" aria-label="Scoreboard">
+    <div class="team">
+      <input id="t1name" value="Duke" aria-label="Team 1 name">
+      <div class="pts" id="s1">0</div>
+      <div class="adj"><button data-adj="0,-1" aria-label="Team 1 minus one">−</button><button data-adj="0,1" aria-label="Team 1 plus one">+</button></div>
+    </div>
+    <div class="mid"><span class="lbl">Quote</span><span class="q" id="qnum">1/12</span></div>
+    <div class="team">
+      <input id="t2name" value="Indiana" aria-label="Team 2 name">
+      <div class="pts" id="s2">0</div>
+      <div class="adj"><button data-adj="1,-1" aria-label="Team 2 minus one">−</button><button data-adj="1,1" aria-label="Team 2 plus one">+</button></div>
+    </div>
+  </header>
+
+  <main id="stage"></main>
+
+  <footer class="controls" id="controls">
+    <div class="award" id="award" hidden>
+      <span>Who got it right?</span>
+      <button class="btn" id="a1">Duke</button>
+      <button class="btn" id="a2">Indiana</button>
+    </div>
+    <span class="hint" id="hint">Teams lock in a guess, then click the answer.</span>
+    <div class="award">
+      <button class="btn" id="reset">Reset game</button>
+      <button class="btn" id="prev" disabled>← Previous quote</button>
+      <button class="btn primary" id="next" disabled>Next quote →</button>
+    </div>
+  </footer>
+</div>
+
+<script>
+const Q = [
+ {q:"I get a group of people who are talented to commit to excellence and to work together as one. That’s where it starts. Different talents, same commitment.", a:"k", tag:"Team cohesion",
+  why:"K builds teams around shared commitment."},
+ {q:"Mental toughness is to physical as four is to one.", a:"kn", tag:"Resilience",
+  why:"Knight ranked mental strength far above physical."},
+ {q:"There are things you can talk about and plan and then there are things that just happen. Sometimes players do things that bring out the best in each other… like when a group of talented musicians hits their groove.", a:"k", tag:"Adaptability",
+  why:"K values flexibility over rigid plans."},
+ {q:"If the NBA was on channel five and a bunch of frogs making love were on channel four, I’d watch the frogs, even if they were coming in fuzzy.", a:"kn", tag:"Commitment",
+  why:"Knight’s loyalty to the college game."},
+ {q:"We’ve created a jealous-free zone… We look each other in the eye. We tell each other the truth. And we trust each other.", a:"k", tag:"Trust & communication",
+  why:"Echoes K’s eye-contact rule from the case."},
+ {q:"The key is not the ‘will to win’… everybody has that. It is the will to prepare to win that is important.", a:"kn", tag:"Goal setting & effort",
+  why:"Knight valued preparation over raw desire."},
+ {q:"Don’t take your culture for granted. There needs to be a constant renewal of values that lead to camaraderie.", a:"k", tag:"Organizational culture",
+  why:"Culture needs constant upkeep, says K."},
+ {q:"All of us learn to write in the second grade. Most of us go on to greater things.", a:"kn", tag:"Conflict & communication",
+  why:"Knight’s tense relationship with the press."},
+ {q:"Everybody hears, but few listen.", a:"kn", tag:"Communication",
+  why:"Knight yelled to get full attention."},
+ {q:"Everyone’s ideas should be heard. It doesn’t matter who gets credit. As long as you’re working towards the same mission and shared purpose.", a:"k", tag:"Shared purpose",
+  why:"Credit matters less than the mission."},
+ {q:"I don’t have to wait until the next morning to regret something I did that was kinda dumb.", a:"kn", tag:"Self-awareness",
+  why:"Knight admitted mistakes but never really changed."},
+ {q:"I try to see each new season as a new challenge because I have a new team to work with, new opponents to encounter, and often new ideas and theories to try.", a:"k", tag:"Continuous learning",
+  why:"Every season is a fresh start for K."}
+];
+/* play order: mixed so answers don't follow a pattern */
+const ORDER=[0,1,3,2,4,6,5,9,7,8,11,10];
+Q.splice(0,Q.length,...ORDER.map(n=>Q[n]));
+const NAME = {k:"Coach K", kn:"Coach Knight"};
+let i=0, revealed=false, score=[0,0], awarded=[false,false], hist=[];
+const $=id=>document.getElementById(id);
+const stage=$("stage");
+
+function tname(n){return $(n===0?"t1name":"t2name").value.trim()||("Team "+(n+1))}
+function paintScore(){ $("s1").textContent=score[0]; $("s2").textContent=score[1]; }
+function syncAwardLabels(){ $("a1").textContent=tname(0); $("a2").textContent=tname(1); }
+
+function render(){
+  revealed=false; awarded=[false,false];
+  const it=Q[i];
+  $("qnum").textContent=(i+1)+"/"+Q.length;
+  stage.innerHTML=`
+   <section class="court" id="court">
+     <span class="eyebrow">Who said it?</span>
+     <blockquote>${it.q}</blockquote>
+     <div class="picks">
+       <button class="pick k" data-p="k"><span class="nm">Coach K</span><span class="sub">Duke · 1980–2022</span></button>
+       <button class="pick kn" data-p="kn"><span class="nm">Coach Knight</span><span class="sub">Indiana · 1971–2000</span></button>
+     </div>
+     <div class="reveal" id="rev" hidden></div>
+   </section>`;
+  stage.querySelectorAll(".pick").forEach(b=>b.onclick=()=>reveal(b.dataset.p));
+  $("award").hidden=true; $("hint").hidden=false;
+  $("a1").classList.remove("on"); $("a2").classList.remove("on");
+  $("next").disabled=true;
+  $("prev").disabled = i===0;
+  $("next").textContent = i===Q.length-1 ? "Final score →" : "Next quote →";
+  if(hist[i]) reveal(hist[i].picked,true);
+}
+
+function reveal(picked,restoring){
+  if(revealed) return; revealed=true;
+  if(!restoring) hist[i]={picked,awarded:[false,false]};
+  awarded=hist[i].awarded;
+  const it=Q[i], ok=picked===it.a;
+  stage.querySelectorAll(".pick").forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.p===picked) b.classList.add(ok?"correct":"wrong");
+  });
+  $("court").classList.add(ok?"good":"bad");
+  const r=$("rev");
+  r.innerHTML=`<span class="ans">${NAME[it.a]}</span><p>${it.why}</p><span class="tag">OB concept: ${it.tag}</span>`;
+  r.hidden=false;
+  syncAwardLabels();
+  $("a1").classList.toggle("on",awarded[0]); $("a2").classList.toggle("on",awarded[1]);
+  $("award").hidden=false; $("hint").hidden=true; $("next").disabled=false;
+}
+
+function award(n){
+  awarded[n]=!awarded[n];
+  score[n]+= awarded[n]?1:-1;
+  if(awarded[n]) burst();
+  $(n===0?"a1":"a2").classList.toggle("on",awarded[n]);
+  paintScore();
+}
+
+function finish(){
+  $("qnum").textContent="Final";
+  const [a,b]=score, t1=tname(0), t2=tname(1);
+  const head = a===b ? "It's a tie" : (a>b? t1 : t2)+" wins";
+  const mono=nm=> nm.toLowerCase()==="indiana" ? "IU" : (nm[0]||"?").toUpperCase();
+  const res=n=> a===b ? "" : ((n===0 ? a>b : b>a) ? "win" : "lose");
+  const side=(n,name,pts)=>`<div class="fteam t${n+1} ${res(n)}"><div class="badge${mono(name).length>1?' two':''}">${mono(name)}</div><div class="fname">${name}</div><div class="fpts">${pts}</div></div>`;
+  stage.innerHTML=`
+   <section class="final">
+     <h1>${head}</h1>
+     <div class="fboard">${side(0,t1,a)}<div class="fdash">Final</div>${side(1,t2,b)}</div>
+     <button class="btn" id="again">Play again</button>
+   </section>`;
+  if(a!==b) burst();
+  $("controls").hidden=true;
+  $("again").onclick=()=>{i=0;score=[0,0];hist=[];paintScore();$("controls").hidden=false;render();};
+}
+
+$("next").onclick=()=>{ if(!revealed) return; if(i<Q.length-1){i++;render();} else finish(); };
+let resetTimer=null;
+$("reset").onclick=()=>{
+  const b=$("reset");
+  if(!b.classList.contains("warn")){
+    b.classList.add("warn"); b.textContent="Click again to reset";
+    resetTimer=setTimeout(()=>{b.classList.remove("warn");b.textContent="Reset game";},3000);
+    return;
+  }
+  clearTimeout(resetTimer); b.classList.remove("warn"); b.textContent="Reset game";
+  i=0; score=[0,0]; hist=[]; paintScore(); render();
+};
+$("prev").onclick=()=>{ if(i>0){ i--; render(); } };
+$("a1").onclick=()=>award(0); $("a2").onclick=()=>award(1);
+document.querySelectorAll("[data-adj]").forEach(b=>b.onclick=()=>{
+  const [t,d]=b.dataset.adj.split(",").map(Number); score[t]=Math.max(0,score[t]+d); paintScore(); if(d>0) burst();
+});
+["t1name","t2name"].forEach(id=>$(id).addEventListener("input",syncAwardLabels));
+/* bouncing basketballs */
+const cv=document.createElement("canvas");
+cv.setAttribute("aria-hidden","true");
+cv.style.cssText="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50";
+document.body.appendChild(cv);
+const cx=cv.getContext("2d");
+let balls=[], start=0, running=false;
+function sizeCv(){const d=window.devicePixelRatio||1;cv.width=innerWidth*d;cv.height=innerHeight*d;cx.setTransform(d,0,0,d,0,0);}
+addEventListener("resize",sizeCv); sizeCv();
+function burst(){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  for(let j=0;j<16;j++){
+    const r=16+Math.random()*16;
+    balls.push({x:r+Math.random()*(innerWidth-2*r),y:-r-Math.random()*260,vx:(Math.random()-.5)*3,vy:Math.random(),r,a:Math.random()*6.28,va:(Math.random()-.5)*.2});
+  }
+  start=performance.now();
+  if(!running){running=true;requestAnimationFrame(tick);}
+}
+function drawBall(b,alpha){
+  cx.save();cx.globalAlpha=alpha;cx.translate(b.x,b.y);cx.rotate(b.a);
+  cx.beginPath();cx.arc(0,0,b.r,0,6.283);cx.fillStyle="#e8742a";cx.fill();
+  cx.lineWidth=Math.max(1.5,b.r*.09);cx.strokeStyle="#3a1a08";cx.stroke();
+  cx.beginPath();cx.moveTo(-b.r,0);cx.lineTo(b.r,0);cx.moveTo(0,-b.r);cx.lineTo(0,b.r);cx.stroke();
+  cx.beginPath();cx.arc(-b.r*1.15,0,b.r*.8,-1.05,1.05);cx.stroke();
+  cx.beginPath();cx.arc(b.r*1.15,0,b.r*.8,2.09,4.19);cx.stroke();
+  cx.restore();
+}
+function tick(now){
+  const t=now-start, W=innerWidth, H=innerHeight;
+  cx.clearRect(0,0,W,H);
+  const alpha=1;
+  for(const b of balls){
+    b.vy+=.15; b.x+=b.vx; b.y+=b.vy; b.a+=b.va;
+    if(b.x<b.r){b.x=b.r;b.vx=Math.abs(b.vx);} if(b.x>W-b.r){b.x=W-b.r;b.vx=-Math.abs(b.vx);}
+    drawBall(b,alpha);
+  }
+  balls=balls.filter(b=>b.y-b.r<H);
+  if(balls.length) requestAnimationFrame(tick); else {running=false;cx.clearRect(0,0,W,H);}
+}
+
+paintScore(); render();
+</script>
+
+</body></html>
