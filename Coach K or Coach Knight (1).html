@@ -1,0 +1,231 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Coach K or Coach Knight? (Copy)</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;1,8..60,400;1,8..60,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: arena scoreboard band on top, one big quote card center court, presenter controls below. Deliberate single dark look (gym lights off, scoreboard on). */
+:root{
+  --floor:#14161c; --panel:#1d2029; --line:#2e3240; --chalk:#eef0f4; --muted:#9aa0ad;
+  --duke:#3b6fd8; --duke-soft:#20345e; --iu:#c8323f; --iu-soft:#5a1d24; --amber:#f2b33d;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --serif:"Source Serif 4",Georgia,serif;
+  --sans:"IBM Plex Sans",system-ui,sans-serif;
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{background:var(--floor);color:var(--chalk);font-family:var(--sans);font-size:16px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px}
+.wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:20px;min-height:100%}
+button{font-family:var(--sans);cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+
+/* scoreboard */
+.board{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:stretch;background:#0b0c10;border:1px solid var(--line);border-radius:6px;padding:12px}
+.team{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px;min-width:0}
+.team input{background:transparent;border:0;color:var(--muted);font:600 13px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;text-align:center;width:100%;padding:4px}
+.team input:hover{color:var(--chalk)}
+.pts{font:900 clamp(48px,9vw,84px)/1 var(--display);color:var(--amber);font-variant-numeric:tabular-nums;text-shadow:0 0 18px rgba(242,179,61,.35)}
+.adj{display:flex;gap:6px}
+.adj button{background:var(--panel);border:1px solid var(--line);color:var(--muted);width:30px;height:26px;border-radius:4px;font-size:14px}
+.adj button:hover{color:var(--chalk)}
+.mid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0 8px}
+.mid .lbl{font:600 11px/1 var(--sans);letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+.mid .q{font:800 34px/1 var(--display);font-variant-numeric:tabular-nums}
+
+/* court card */
+.court{flex:1;display:flex;flex-direction:column;gap:22px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:clamp(22px,4vw,44px);position:relative;overflow:hidden;transition:box-shadow .3s}
+.court::before{content:"";position:absolute;left:50%;top:50%;width:min(70vw,520px);aspect-ratio:1;max-width:100%;transform:translate(-50%,-50%);border:2px solid rgba(255,255,255,.035);border-radius:50%;pointer-events:none}
+.court.k{box-shadow:inset 0 0 0 3px var(--duke)} .court.kn{box-shadow:inset 0 0 0 3px var(--iu)}
+.eyebrow{font:600 12px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+blockquote{margin:0;font:italic 400 clamp(24px,3.6vw,40px)/1.3 var(--serif);text-wrap:balance;max-width:30ch;position:relative}
+blockquote::before{content:"\201C";position:absolute;left:-.55em;top:-.1em;color:var(--amber);font-size:1.4em;opacity:.8}
+
+.picks{display:grid;grid-template-columns:1fr 1fr;gap:14px;position:relative}
+.pick{border-radius:6px;padding:18px 16px;border:2px solid var(--line);background:#161820;color:var(--chalk);display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;transition:transform .12s,border-color .2s,background .2s,opacity .2s}
+.pick:hover:not(:disabled){transform:translateY(-2px)}
+.pick .nm{font:800 clamp(26px,4vw,36px)/1 var(--display);letter-spacing:.02em;text-transform:uppercase}
+.pick .sub{font-size:13px;color:var(--muted)}
+.pick .key{font:600 11px/1 var(--sans);color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:3px 6px;margin-top:6px}
+.pick.k:hover:not(:disabled){border-color:var(--duke)} .pick.kn:hover:not(:disabled){border-color:var(--iu)}
+.pick:disabled{cursor:default}
+.pick.right.k{background:var(--duke-soft);border-color:var(--duke)}
+.pick.right.kn{background:var(--iu-soft);border-color:var(--iu)}
+.pick.dim{opacity:.35}
+
+.reveal{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:18px;position:relative}
+.reveal .ans{font:800 26px/1 var(--display);text-transform:uppercase;letter-spacing:.03em}
+.reveal p{margin:0;max-width:68ch;line-height:1.55;color:#d7dae2}
+.tag{align-self:flex-start;font:600 12px/1 var(--sans);letter-spacing:.06em;color:var(--amber);border:1px solid rgba(242,179,61,.45);border-radius:20px;padding:6px 10px}
+
+/* controls */
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.award{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.award span{font-size:13px;color:var(--muted)}
+.btn{background:var(--panel);border:1px solid var(--line);color:var(--chalk);border-radius:5px;padding:11px 16px;font-size:14px;font-weight:500}
+.btn:hover{border-color:var(--muted)}
+.btn.on{background:var(--amber);border-color:var(--amber);color:#1a1300}
+.btn.primary{background:var(--chalk);color:var(--floor);border-color:var(--chalk);font-weight:600}
+.btn.primary:disabled{opacity:.35;cursor:default}
+.hint{font-size:12px;color:var(--muted)}
+
+/* final */
+.final{flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:clamp(22px,4vw,44px)}
+.final h1{margin:0;font:900 clamp(40px,7vw,72px)/.95 var(--display);text-transform:uppercase;text-wrap:balance}
+.final p{margin:0;max-width:64ch;line-height:1.6;color:#d7dae2}
+.final h2{margin:6px 0 0;font:800 20px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--amber)}
+.final ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;line-height:1.5;max-width:64ch}
+
+@media (max-width:560px){.picks{grid-template-columns:1fr}.mid .q{font-size:26px}blockquote::before{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="board" aria-label="Scoreboard">
+    <div class="team">
+      <input id="t1name" value="Team 1" aria-label="Team 1 name">
+      <div class="pts" id="s1">0</div>
+      <div class="adj"><button data-adj="0,-1" aria-label="Team 1 minus one">−</button><button data-adj="0,1" aria-label="Team 1 plus one">+</button></div>
+    </div>
+    <div class="mid"><span class="lbl">Quote</span><span class="q" id="qnum">1/14</span></div>
+    <div class="team">
+      <input id="t2name" value="Team 2" aria-label="Team 2 name">
+      <div class="pts" id="s2">0</div>
+      <div class="adj"><button data-adj="1,-1" aria-label="Team 2 minus one">−</button><button data-adj="1,1" aria-label="Team 2 plus one">+</button></div>
+    </div>
+  </header>
+
+  <main id="stage"></main>
+
+  <footer class="controls" id="controls">
+    <div class="award" id="award" hidden>
+      <span>Who got it right?</span>
+      <button class="btn" id="a1">Team 1</button>
+      <button class="btn" id="a2">Team 2</button>
+    </div>
+    <span class="hint" id="hint">Teams lock in a guess, then click the answer. Keys: K, N, then Space for next.</span>
+    <button class="btn primary" id="next" disabled>Next quote →</button>
+  </footer>
+</div>
+
+<script>
+const Q = [
+ {q:"Too many rules get in the way of leadership. They just put you in a box.", a:"k", tag:"Leader discretion vs. rules",
+  why:"Coach K's reason for keeping only one rule. Both coaches ran on a single rule, a habit K picked up from Knight at West Point."},
+ {q:"Discipline: doing what you have to do, and doing it as well as you possibly can, and doing it that way all the time.", a:"kn", tag:"Mentor influence",
+  why:"Knight's definition, learned from his father. Hold that thought: the next quote is the other coach's version."},
+ {q:"Discipline is doing what you are supposed to do in the best possible manner at the time you are supposed to do it.", a:"k", tag:"Mentor influence",
+  why:"Coach K's definition is almost word for word Knight's. Same standards, same philosophy. The difference between them shows up in how they enforced it."},
+ {q:"Kids will be satisfied with what you tolerate.", a:"kn", tag:"Performance expectations",
+  why:"Knight's perfectionism. He admitted he was sometimes angrier after a win than a loss because the game wasn't perfect."},
+ {q:"I don't want fear to be my primary motivator.", a:"k", tag:"Motivation",
+  why:"Coach K. Notice the word primary: he still used fear, just not as the main tool."},
+ {q:"Everybody has a will to win. What's far more important is having the will to prepare to win.", a:"kn", tag:"Goal setting & effort",
+  why:"Knight put preparation above everything. It is the line his case is named after, and he argued it was the wrong way to phrase it."},
+ {q:"The team has got to know that if they are screwing up, the hammer is going to come down.", a:"k", tag:"Contingent punishment",
+  why:"A surprise for most people: this is Coach K. His warmth came with consequences, which is why players like Laettner said he was more like Knight in private."},
+ {q:"The greatest reward a coach can ever have is a kid coming back to see how he is doing.", a:"kn", tag:"Relationships",
+  why:"Also a surprise: this is Knight. He raised over $400,000 for Landon Turner after Turner was paralyzed and named him captain."},
+ {q:"A coach has to be a tyrant, a benign benefactor, a parent.", a:"kn", tag:"Impression management",
+  why:"Knight compared coaching to acting: you become different things at different times."},
+ {q:"Whatever I say after that will not be as important as how I look to them.", a:"k", tag:"Impression management",
+  why:"Coach K on walking into the locker room. Both coaches saw leadership as partly a performance. K performed confidence; Knight often performed anger."},
+ {q:"I'd like to be respected as a coach, but I'm not concerned about being liked.", a:"kn", tag:"Leader–member relations",
+  why:"Knight's answer to his mentor Joe Lapchick, who told him that worrying about being liked ruins tough decisions."},
+ {q:"There's a time to get in someone's face and there's a time when you just put it on the line without yelling.", a:"k", tag:"Situational leadership",
+  why:"Coach K matched his approach to the moment. The quote ends with a time to pat on the back and a time to hug."},
+ {q:"There have been times I was more upset after we won than when we lost.", a:"kn", tag:"Perfectionism",
+  why:"Knight. One of his players said he was chasing the perfect game and might coach forever without finding it."},
+ {q:"Sharing with one another and caring for one another, that's what love is. That's what family is all about.", a:"k", tag:"Transformational leadership",
+  why:"Coach K. Both coaches called their programs a family. For K it meant visible affection; for Knight it meant loyalty under a hard exterior."}
+];
+const NAME = {k:"Coach K", kn:"Coach Knight"};
+let i=0, revealed=false, score=[0,0], awarded=[false,false];
+const $=id=>document.getElementById(id);
+const stage=$("stage");
+
+function tname(n){return $(n===0?"t1name":"t2name").value.trim()||("Team "+(n+1))}
+function paintScore(){ $("s1").textContent=score[0]; $("s2").textContent=score[1]; }
+function syncAwardLabels(){ $("a1").textContent=tname(0); $("a2").textContent=tname(1); }
+
+function render(){
+  revealed=false; awarded=[false,false];
+  const it=Q[i];
+  $("qnum").textContent=(i+1)+"/"+Q.length;
+  stage.innerHTML=`
+   <section class="court" id="court">
+     <span class="eyebrow">Who said it?</span>
+     <blockquote>${it.q}</blockquote>
+     <div class="picks">
+       <button class="pick k" data-p="k"><span class="nm">Coach K</span><span class="sub">Duke · 1980–</span><span class="key">K</span></button>
+       <button class="pick kn" data-p="kn"><span class="nm">Coach Knight</span><span class="sub">Indiana · 1971–2000</span><span class="key">N</span></button>
+     </div>
+     <div class="reveal" id="rev" hidden></div>
+   </section>`;
+  stage.querySelectorAll(".pick").forEach(b=>b.onclick=()=>reveal());
+  $("award").hidden=true; $("hint").hidden=false;
+  $("a1").classList.remove("on"); $("a2").classList.remove("on");
+  $("next").disabled=true;
+  $("next").textContent = i===Q.length-1 ? "Final score →" : "Next quote →";
+}
+
+function reveal(){
+  if(revealed) return; revealed=true;
+  const it=Q[i];
+  stage.querySelectorAll(".pick").forEach(b=>{
+    b.disabled=true;
+    b.classList.add(b.dataset.p===it.a?"right":"dim");
+  });
+  $("court").classList.add(it.a);
+  const r=$("rev");
+  r.innerHTML=`<span class="ans">${NAME[it.a]}</span><p>${it.why}</p><span class="tag">OB concept: ${it.tag}</span>`;
+  r.hidden=false;
+  syncAwardLabels();
+  $("award").hidden=false; $("hint").hidden=true; $("next").disabled=false;
+}
+
+function award(n){
+  awarded[n]=!awarded[n];
+  score[n]+= awarded[n]?1:-1;
+  $(n===0?"a1":"a2").classList.toggle("on",awarded[n]);
+  paintScore();
+}
+
+function finish(){
+  $("qnum").textContent="Final";
+  const [a,b]=score, t1=tname(0), t2=tname(1);
+  const head = a===b ? "It's a tie" : (a>b? t1 : t2)+" wins";
+  stage.innerHTML=`
+   <section class="final">
+     <span class="eyebrow">Final score · ${t1} ${a} – ${b} ${t2}</span>
+     <h1>${head}</h1>
+     <p>If the class got a lot of these wrong, that's the point. The two coaches shared one rule, nearly the same definition of discipline, and the same "family" language. What separated them was how they carried it out.</p>
+     <h2>Talk it over</h2>
+     <ol>
+       <li>Which quote surprised you most, and what did you assume about that coach going in?</li>
+       <li>If their philosophies are this similar, why did one turn down $40 million to stay while the other got fired?</li>
+       <li>Coach K still uses "the hammer." Is that really different from Knight, or just better packaging?</li>
+     </ol>
+     <button class="btn" id="again">Play again</button>
+   </section>`;
+  $("controls").hidden=true;
+  $("again").onclick=()=>{i=0;score=[0,0];paintScore();$("controls").hidden=false;render();};
+}
+
+$("next").onclick=()=>{ if(!revealed) return; if(i<Q.length-1){i++;render();} else finish(); };
+$("a1").onclick=()=>award(0); $("a2").onclick=()=>award(1);
+document.querySelectorAll("[data-adj]").forEach(b=>b.onclick=()=>{
+  const [t,d]=b.dataset.adj.split(",").map(Number); score[t]=Math.max(0,score[t]+d); paintScore();
+});
+["t1name","t2name"].forEach(id=>$(id).addEventListener("input",syncAwardLabels));
+document.addEventListener("keydown",e=>{
+  if(e.target.tagName==="INPUT") return;
+  const k=e.key.toLowerCase();
+  if((k==="k"||k==="n") && !revealed && $("court")) reveal();
+  else if((k===" "||k==="arrowright") && revealed && !$("controls").hidden){ e.preventDefault(); $("next").click(); }
+  else if(k==="1" && revealed) award(0);
+  else if(k==="2" && revealed) award(1);
+});
+paintScore(); render();
+</script>
+
+</body></html>
